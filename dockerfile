@@ -7,7 +7,7 @@ ENV GIN_MODE=release
 COPY . .
 RUN go mod download
 
-RUN apt-get install python3
+RUN apt-get install python3 python3-pip -y
 RUN pip3 install -r requirements.txt
 
 EXPOSE 6001
