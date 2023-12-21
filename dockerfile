@@ -14,7 +14,7 @@ FROM python:3.11
 WORKDIR /app
 
 COPY --from=build ./main .
-COPY --from=build ./requirements.txt .
+# COPY --from=build ./requirements.txt .
 
 # # Install Python3 and Pip3
 # RUN apt-get update -y
@@ -24,7 +24,8 @@ COPY --from=build ./requirements.txt .
 # RUN apt-get install python3 python3-pip python3-venv -y
 # RUN python3 -m venv .venv
 # RUN sudo .venv/bin/activate
-RUN python3 -m pip install -r requirements.txt
+# RUN python3 -m pip install -r requirements.txt
+RUN python3 -m pip install numpy
 
 EXPOSE 6001
 
