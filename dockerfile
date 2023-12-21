@@ -14,7 +14,7 @@ FROM python:3.11
 WORKDIR /app
 
 COPY --from=build ./main .
-COPY --from=build requirements.txt .
+COPY --from=build ./requirements.txt .
 
 # # Install Python3 and Pip3
 # RUN apt-get update -y
