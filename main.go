@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/phatsanphonna/go-grader/routes"
@@ -13,5 +15,6 @@ func main() {
 	r.Use(cors.Default())
 	r.POST("/python", routes.PostPythonCode)
 	r.POST("/java", routes.PostJavaCode)
-	r.Run(":6001")
+	r.RunTLS(":6001", "/fullchain.pem", "/privkey.pem")
+	fmt.Println("Server is running on 6001")
 }
