@@ -10,7 +10,7 @@ RUN go mod download
 RUN apt-get install python3
 RUN pip3 install -r requirements.txt
 
-EXPOSE 6000
+EXPOSE 6001
 
 RUN CGO_ENABLED=0 GOOS=linux go build -o /main
 
