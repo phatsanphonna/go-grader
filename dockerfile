@@ -7,6 +7,8 @@ ENV GIN_MODE=release
 COPY . .
 RUN go mod download
 
+# Install Python3 and Pip3
+RUN apt-get install software-properties-common -y
 RUN add-apt-repository universe -y
 RUN apt-get update -y
 RUN apt-get install python3 python3-pip -y
