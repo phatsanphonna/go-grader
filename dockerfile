@@ -8,6 +8,7 @@ COPY . .
 RUN go mod download
 
 RUN apt-get install python3
+RUN pip3 install -r requirements.txt
 
 EXPOSE 6000
 
