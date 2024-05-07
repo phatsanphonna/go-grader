@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"math/rand"
 	"fmt"
 	"log"
 	"net/http"
@@ -45,8 +46,11 @@ func PostPythonCode(c *gin.Context) {
 		}
 	}
 
-	file.WriteFile("tmp.py", body.Code)
-	out, err, status := grader.ExecutePythonCode("tmp.py", input)
+	rando := rand.Intn(500000)
+	filename := fmt.Sprintf("tmp%d.py", rando)
+
+	file.WriteFile(filename, body.Code)
+	out, err, status := grader.ExecutePythonCode(filename, input)
 
 	c.JSON(http.StatusOK, gin.H{
 		"out":    out,
