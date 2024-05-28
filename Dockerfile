@@ -1,26 +1,34 @@
-FROM golang:1.19 as build
+FROM golang:1.20 as build
 
 WORKDIR /app
-
-ENV GIN_MODE=release
 
 COPY . .
+
 RUN go mod download
+RUN go build -o ./main ./main.go
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o ./main
+# Python base image
+FROM debian:bookworm as production
 
-FROM python:3.10.12 as production
+WORKDIR /root/app
 
-WORKDIR /app
+ENV TZ Asia/Bangkok
 
-COPY --from=build /app/main .
+COPY --from=build /app/main ./main
+# COPY ./wine_inw.tar.gz .
 
-RUN apt update -y
-RUN apt install software-properties-common -y
-RUN apt install pipx -y
+# RUN echo "deb http://mirror.applebred.net/debian bullseye main contrib non-free" | tee -a /etc/apt/sources.list
+RUN echo 'deb http://mirror.applebred.net/debian bookworm main contrib non-free' > /etc/apt/sources.list
+RUN echo 'deb http://mirror.applebred.net/debian-security bookworm-security main contrib non-free' >> /etc/apt/sources.list
+RUN echo 'deb http://mirror.applebred.net/debian bookworm-updates main contrib non-free' >> /etc/apt/sources.list
 
+# RUN apt update -y
+# RUN apt install -y dpkg
+# RUN dpkg --add-architecture i386
+RUN apt-get update -y
+RUN apt-get install -y python3.11-minimal python3-pip pipx && rm -rf /var/lib/apt/lists/*
+
+# Python3 modules
 RUN pipx install numpy
 
-EXPOSE 6001
-
-CMD [ "./main" ]
+CMD ./main
